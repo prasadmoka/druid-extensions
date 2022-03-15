@@ -14,6 +14,7 @@ import org.apache.druid.segment.ColumnInspector;
 import org.apache.druid.segment.ColumnSelectorFactory;
 import org.apache.druid.segment.column.ValueType;
 import org.apache.druid.segment.vector.VectorColumnSelectorFactory;
+import org.syngenta.druid.utils.IndicatorUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -40,29 +41,12 @@ public class SingulationAggregatorFactory extends AggregatorFactory {
 
     @Override
     public Aggregator factorize(ColumnSelectorFactory columnSelectorFactory) {
-        Double value = columnSelectorFactory.makeColumnValueSelector(fieldName).getDouble();
-        log.debug("SingulationAggregatorFactory.factorize():"+value);
         return new SingulationAggregator(columnSelectorFactory.makeColumnValueSelector(fieldName));
     }
 
     @Override
     public BufferAggregator factorizeBuffered(ColumnSelectorFactory columnSelectorFactory) {
-        Double value = columnSelectorFactory.makeColumnValueSelector(fieldName).getDouble();
-        log.debug("SingulationAggregatorFactory.factorizeBuffered():"+value);
         return new SingulationBufferAggregator(columnSelectorFactory.makeColumnValueSelector(fieldName));
-    }
-
-    @Override
-    public VectorAggregator factorizeVector(VectorColumnSelectorFactory selectorFactory) {
-        double[] value = selectorFactory.makeValueSelector(fieldName).getDoubleVector();
-        log.debug("SingulationAggregatorFactory.factorizeVector():"+value);
-        return new SingulationVectorAggregator(selectorFactory.makeValueSelector(fieldName));
-    }
-
-    @Override
-    public boolean canVectorize(ColumnInspector columnInspector) {
-        log.debug("SingulationAggregatorFactory.canVectorize");
-        return true;
     }
 
     @Override
@@ -81,7 +65,7 @@ public class SingulationAggregatorFactory extends AggregatorFactory {
     @Override
     public AggregatorFactory getCombiningFactory() {
         log.debug("SingulationAggregatorFactory.getCombiningFactory");
-        return new SingulationAggregatorFactory(name,fieldName);
+        return new SingulationAggregatorFactory(this.name,this.name);
     }
 
     @Override
@@ -93,7 +77,7 @@ public class SingulationAggregatorFactory extends AggregatorFactory {
     @Override
     public Object deserialize(Object object) {
         Object o = object instanceof String ? Double.parseDouble((String) object) : object;
-        log.debug("SingulationAggregatorFactory.deserialize object is:"+ o);
+        //log.debug("SingulationAggregatorFactory.deserialize object is:"+ o);
         return o;
     }
 
@@ -102,18 +86,21 @@ public class SingulationAggregatorFactory extends AggregatorFactory {
     public Object finalizeComputation(@Nullable Object obj) {
         log.debug("SingulationAggregatorFactory.finalizeComputation:"+obj);
         return obj;
+        //List<Double> inspectionValues = (List<Double>) obj;
+        //log.debug("SingulationAggregatorFactory.finalizeComputation list size is:"+inspectionValues.size());
+        //Double singulationValue = IndicatorUtils.getSingulation(inspectionValues);
+        //log.debug("SingulationAggregatorFactory.finalizeComputation Singulation Value is:"+singulationValue);
+        //return singulationValue;
     }
 
     @Override
     @JsonProperty
     public String getName() {
-        //log.debug("SingulationAggregatorFactory.getName");
         return name;
     }
 
     @JsonProperty
     public String getFieldName() {
-       // log.debug("SingulationAggregatorFactory.getFieldName");
         return fieldName;
     }
 
@@ -138,7 +125,7 @@ public class SingulationAggregatorFactory extends AggregatorFactory {
     @Override
     public int getMaxIntermediateSize() {
         log.debug("SingulationAggregatorFactory.getMaxIntermediateSize");
-        return 8;
+        return Double.BYTES;
     }
 
     @Override

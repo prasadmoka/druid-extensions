@@ -3,7 +3,6 @@ package org.syngenta.druid.sample;
 import org.apache.druid.java.util.common.logger.Logger;
 import org.apache.druid.query.aggregation.DoubleAggregateCombiner;
 import org.apache.druid.segment.ColumnValueSelector;
-import org.syngenta.druid.aggregation.SingulationVectorAggregator;
 
 public class SampleSumAggregateCombiner extends DoubleAggregateCombiner {
     private static final Logger log = new Logger(SampleSumAggregateCombiner.class);

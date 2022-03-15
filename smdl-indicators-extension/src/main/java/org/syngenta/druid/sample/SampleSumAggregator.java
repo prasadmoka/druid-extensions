@@ -5,7 +5,6 @@ import com.google.common.primitives.Doubles;
 import org.apache.druid.java.util.common.logger.Logger;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.segment.BaseDoubleColumnValueSelector;
-import org.syngenta.druid.aggregation.SingulationVectorAggregator;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;

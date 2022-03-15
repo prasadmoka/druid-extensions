@@ -25,6 +25,7 @@ import org.apache.druid.initialization.DruidModule;
 import org.syngenta.druid.aggregation.SingulationAggregatorFactory;
 import org.syngenta.druid.sample.SampleSumAggregatorFactory;
 import org.syngenta.druid.sprout.SproutAggregatorFactory;
+import org.syngenta.druid.test.TestAggregatorFactory;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class SmdlExtensionModule implements DruidModule
     // Register Jackson module for any classes we need to be able to use in JSON queries or ingestion specs.
     return ImmutableList.of(
         new SimpleModule(getClass().getSimpleName()).registerSubtypes(
+                new NamedType(TestAggregatorFactory.class, "testSum"),
                 new NamedType(SproutAggregatorFactory.class, "sprout"),
             new NamedType(SingulationAggregatorFactory.class, "singulation"),
             new NamedType(SampleSumAggregatorFactory.class, "sampleSum")

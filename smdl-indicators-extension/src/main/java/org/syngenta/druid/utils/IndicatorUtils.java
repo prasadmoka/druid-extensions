@@ -1,26 +1,25 @@
 package org.syngenta.druid.utils;
 
 import org.apache.druid.java.util.common.logger.Logger;
-import org.syngenta.druid.aggregation.SingulationVectorAggregator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IndicatorUtils {
     private static final Logger log = new Logger(IndicatorUtils.class);
-   public static double getSingulation(double[] inputArr){
-       log.info("start of get Singulation");
-        double target_value = inputArr[0];
+   public static double getSingulation(List<Double> doubleList){
+       log.debug("start of get Singulation with list size:"+doubleList.size());
+        double target_value = doubleList.get(0);
         double low_value = 0.5;
         double high_value = 1.5;
 
         int tot = 0;
         List<Double> values = new ArrayList<>();
 
-        for(int i = 0; i < inputArr.length; i++){
+        for(int i = 0; i < doubleList.size() -1; i++){
             if(i==0 && tot > 0)
                 continue;
-            values.add(inputArr[i]);
+            values.add(doubleList.get(i));
             tot++;
         }
 
@@ -43,7 +42,7 @@ public class IndicatorUtils {
         }
 
         double total = 1 - ( (_high + _low) / tot);
-       log.info("total value is:",total);
+       log.debug("total value is:"+total);
         return total * 100;
     }
 }

@@ -3,7 +3,6 @@ package org.syngenta.druid.sample;
 import org.apache.druid.java.util.common.logger.Logger;
 import org.apache.druid.query.aggregation.VectorAggregator;
 import org.apache.druid.segment.vector.VectorValueSelector;
-import org.syngenta.druid.aggregation.SingulationVectorAggregator;
 
 import javax.annotation.Nullable;
 import java.nio.ByteBuffer;
