@@ -17,13 +17,13 @@ public class SingulationBufferAggregator implements BufferAggregator {
 
     public SingulationBufferAggregator(ColumnValueSelector selector) {
         this.selector = selector;
-        inspectionValues = new ArrayList<>();
     }
 
     @Override
     public void init(ByteBuffer byteBuffer, int i) {
         log.debug("SingulationBufferAggregator.init():"+i);
         byteBuffer.putDouble(i, 0.0);
+        inspectionValues = new ArrayList<>();
     }
 
     @Override
